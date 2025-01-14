@@ -121,4 +121,7 @@ hooks: {
 
 # Some Tutorials I used:
 
-https://www.youtube.com/watch?v=j78HfUMIkBQ
+
+[Sam Thoyre Tutorials](https://www.youtube.com/watch?v=s2vzRwUbOQM)
+
+[Getting Started with Payload CMS V3: Full Tutorial & Review (Free Self-Hosting on Railway) from Funkyton](https://www.youtube.com/watch?v=j78HfUMIkBQ)
