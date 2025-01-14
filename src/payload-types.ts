@@ -99,14 +99,14 @@ export interface Post {
     [k: string]: unknown;
   };
   author?: (string | null) | User;
+  createdAt: string;
+  updatedAt: string;
   images?:
     | {
         image?: (string | null) | Media;
         id?: string | null;
       }[]
     | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -211,14 +211,14 @@ export interface PostsSelect<T extends boolean = true> {
   title?: T;
   content?: T;
   author?: T;
+  createdAt?: T;
+  updatedAt?: T;
   images?:
     | T
     | {
         image?: T;
         id?: T;
       };
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
