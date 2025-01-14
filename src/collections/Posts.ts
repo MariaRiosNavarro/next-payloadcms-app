@@ -1,8 +1,11 @@
 import type { CollectionConfig } from 'payload'
+import { isAuthor, isAdmin } from './../access'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
   access: {
+    update: isAuthor,
+    delete: isAdmin,
     read: () => true,
   },
   fields: [
@@ -20,7 +23,11 @@ export const Posts: CollectionConfig = {
       name: 'author',
       type: 'relationship',
       relationTo: 'users',
+      defaultValue: ({ user }) => user?.id,
       required: true,
+      admin: {
+        readOnly: true, // The author cannot be changed once set
+      },
     },
     {
       name: 'createdAt',
@@ -28,7 +35,7 @@ export const Posts: CollectionConfig = {
       admin: {
         readOnly: true,
         date: {
-          pickerAppearance: 'dayAndTime', // Time picker now shows time too
+          pickerAppearance: 'dayAndTime',
         },
       },
     },
@@ -55,8 +62,6 @@ export const Posts: CollectionConfig = {
       ],
     },
   ],
-
-  // With this hook, we update `updatedAt` field. There are a lot of other Payload hooks. For example:
   hooks: {
     beforeChange: [
       async ({ data, operation }) => {

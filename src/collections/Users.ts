@@ -1,4 +1,10 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, FieldAccess, User } from 'payload'
+import { isAdmin } from './../access'
+
+const isAdminFieldAccess: FieldAccess = ({ req }) => {
+  const user = req.user as User | undefined
+  return user?.role === 'admin'
+}
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -11,36 +17,31 @@ export const Users: CollectionConfig = {
   },
   access: {
     // Only admin can create users
-    create: ({ req: { user } }) => {
-      return user?.userType === 'admin'
-    },
+    create: isAdmin,
+
     // Only admin can update users
-    update: ({ req: { user } }) => {
-      return user?.userType === 'admin'
-    },
-    // Only admin can delete users
-    delete: ({ req: { user } }) => {
-      return user?.userType === 'admin'
-    },
-    // Everyone can read users
+    update: isAdmin,
+
+    // Only admin can update users
+    delete: isAdmin,
+
+    // PUBLIC - Everyone can read users
     read: () => true,
   },
   fields: [
     // Email added by default
     // Add more fields as needed
     {
-      name: 'userType',
+      name: 'role',
       type: 'select',
       options: [
         { label: 'Admin', value: 'admin' },
-        { label: 'User', value: 'user' },
+        { label: 'Editor', value: 'editor' },
       ],
       required: true,
       access: {
         // Control field-level access
-        update: ({ req: { user } }): boolean => {
-          return user?.userType === 'admin'
-        },
+        update: isAdminFieldAccess,
       },
       admin: {
         position: 'sidebar',

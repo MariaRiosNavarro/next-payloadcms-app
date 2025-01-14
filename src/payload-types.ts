@@ -72,7 +72,7 @@ export interface User {
   /**
    * User type can only be modified by administrators
    */
-  userType: 'admin' | 'user';
+  role: 'admin' | 'editor';
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -204,7 +204,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  userType?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;

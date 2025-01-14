@@ -6,6 +6,9 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { isAdmin } from './access'
+
+// Add all collections in one place
 
 import { collections } from './collections'
 import { Users } from './collections/Users'
@@ -33,6 +36,12 @@ export default buildConfig({
   globals: [
     {
       slug: 'site-settings',
+      access: {
+        // Only admin users can read global settings
+        read: isAdmin,
+        // Only admin users can update global settings
+        update: isAdmin,
+      },
       fields: [
         {
           name: 'siteTitle',
