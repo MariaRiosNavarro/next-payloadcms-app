@@ -30,8 +30,12 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'site-settings': SiteSetting;
+  };
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -105,7 +109,7 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  author?: (string | null) | User;
+  author: string | User;
   createdAt: string;
   updatedAt: string;
   images?:
@@ -280,6 +284,82 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: string;
+  siteTitle: string;
+  siteDescription: string;
+  contactEmail: string;
+  socialMediaLinks?:
+    | {
+        plattform: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  maintenanceMode?: boolean | null;
+  defaultLanguage?: ('en' | 'es' | 'de') | null;
+  themeSettings?: {
+    theme?: ('light' | 'dark') | null;
+    accentColor?: ('blue' | 'green' | 'red') | null;
+  };
+  footerSettings?: {
+    footerText?: string | null;
+    footerLink?: string | null;
+    footerLogo?: (string | null) | Media;
+  };
+  headerSettings?: {
+    headerText?: string | null;
+    headerLink?: string | null;
+    headerLogo?: (string | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  siteTitle?: T;
+  siteDescription?: T;
+  contactEmail?: T;
+  socialMediaLinks?:
+    | T
+    | {
+        plattform?: T;
+        url?: T;
+        id?: T;
+      };
+  maintenanceMode?: T;
+  defaultLanguage?: T;
+  themeSettings?:
+    | T
+    | {
+        theme?: T;
+        accentColor?: T;
+      };
+  footerSettings?:
+    | T
+    | {
+        footerText?: T;
+        footerLink?: T;
+        footerLogo?: T;
+      };
+  headerSettings?:
+    | T
+    | {
+        headerText?: T;
+        headerLink?: T;
+        headerLogo?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

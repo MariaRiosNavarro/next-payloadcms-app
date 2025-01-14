@@ -30,6 +30,118 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   sharp,
+  globals: [
+    {
+      slug: 'site-settings',
+      fields: [
+        {
+          name: 'siteTitle',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'siteDescription',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'contactEmail',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'socialMediaLinks',
+          type: 'array',
+          fields: [
+            {
+              name: 'plattform',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'url',
+              type: 'text',
+              required: true,
+            },
+          ],
+        },
+        {
+          name: 'maintenanceMode',
+          type: 'checkbox',
+        },
+        {
+          name: 'defaultLanguage',
+          type: 'select',
+          options: [
+            { label: 'English', value: 'en' },
+            { label: 'Spanish', value: 'es' },
+            { label: 'German', value: 'de' },
+          ],
+        },
+        {
+          name: 'themeSettings',
+          type: 'group',
+          fields: [
+            {
+              name: 'theme',
+              type: 'select',
+              options: [
+                { label: 'Light', value: 'light' },
+                { label: 'Dark', value: 'dark' },
+              ],
+            },
+            {
+              name: 'accentColor',
+              type: 'select',
+              options: [
+                { label: 'Blue', value: 'blue' },
+                { label: 'Green', value: 'green' },
+                { label: 'Red', value: 'red' },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'footerSettings',
+          type: 'group',
+          fields: [
+            {
+              name: 'footerText',
+              type: 'text',
+            },
+            {
+              name: 'footerLink',
+              type: 'text',
+            },
+            {
+              name: 'footerLogo',
+              type: 'upload',
+              relationTo: 'media',
+            },
+          ],
+        },
+        {
+          name: 'headerSettings',
+          type: 'group',
+          fields: [
+            {
+              name: 'headerText',
+              type: 'text',
+            },
+            {
+              name: 'headerLink',
+              type: 'text',
+            },
+            {
+              name: 'headerLogo',
+              type: 'upload',
+              relationTo: 'media',
+            },
+          ],
+        },
+      ],
+    },
+  ],
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder
