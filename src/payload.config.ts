@@ -7,6 +7,8 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import { isAdmin } from './access'
+import ExportButton from './components/ExportButton'
+import HelloWidget from './components/HelloWidget'
 
 // Add all collections in one place
 
@@ -17,10 +19,16 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  admin: {
-    user: Users.slug,
+  admin: {  
+      user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    components: {
+      // Add your custom components here
+      // Example:
+      beforeDashboard: ['/components/HelloWidget.tsx'],
+      actions: ['/components/ExportButton.tsx'],
     },
   },
   collections,

@@ -18,7 +18,7 @@ pnpm create-payload-app
 
 3- Add page.tsx inside (frontend). The layout.tsx file will be automatically created.
 
-### Payload Hooks:
+## Payload Hooks
 
 - beforeOperation
 
@@ -119,9 +119,26 @@ hooks: {
 },
 ```
 
-# Some Tutorials I used:
+## Tailwind
+
+To use Tailwind in both the frontend and Payload: In (frontend), create globals.scss with the Tailwind imports, and in (payload)/custom.scss, import globals.scss.
+
+```css
+/* (frontend)/globals.scss */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+```css
+/* (payload)/custom.scss */
+@import '../(frontend)/globals.scss';
+```
+
+## Some Tutorials I used
 
 [Sam Thoyre Tutorials- all](https://www.youtube.com/watch?v=s2vzRwUbOQM)
+
 [Sam Thoyre Tutorials - Lesson 2.1](https://www.youtube.com/watch?v=Pg6W5RbMH3I&list=PLm8mpUfGYwyGbRua00MjCDT7YwHpKFHAQ&index=7)
 
 [Getting Started with Payload CMS V3: Full Tutorial & Review (Free Self-Hosting on Railway) from Funkyton](https://www.youtube.com/watch?v=j78HfUMIkBQ)
