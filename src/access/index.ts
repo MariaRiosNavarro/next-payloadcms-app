@@ -1,14 +1,19 @@
 import type { Access } from 'payload'
+import type { AccessArgs } from 'payload'
 
 interface User {
   id: string | number
   role: 'admin' | 'editor'
+  email: string
 }
+
+export let authUserEmail: string
 
 export const hasRole =
   (role: 'admin' | 'editor'): Access =>
   ({ req }) => {
     const user = req.user as User
+    authUserEmail = user?.email
     return user?.role === role
   }
 
@@ -21,24 +26,42 @@ export const isAdminOrEditor: Access = ({ req }) => {
   return user.role === 'admin' || user.role === 'editor'
 }
 
-// Reusable access function to check if the user is the author of the document
+
 export const isAuthor: Access = async ({ req, id }) => {
-  const user = req.user // Retrieve the logged-in user
-  if (!user) return false // Ensure there's an authenticated user
+  const user = req.user 
+  if (!user) return false 
+  if (!id) return false 
 
-  if (!id) return false // Ensure an ID is provided to identify the document
-
-  // Fetch the post document from the database using the provided ID
   const post = await req.payload.findByID({
-    collection: 'posts', // Specify the collection slug
-    id, // The document ID to fetch
+    collection: 'posts', 
+    id, 
   })
 
   const author = post?.author
 
-  // Type narrowing to handle both cases
   const authorId = typeof author === 'string' ? author : author?.id
 
-  // Validate if the current user is the author of the post
   return authorId === user.id
+}
+
+// ------------PAYLOAD
+
+export const anyone: Access = () => true
+
+type isAuthenticated = (args: AccessArgs<User>) => boolean
+
+export const authenticated: isAuthenticated = ({ req: { user } }) => {
+  return Boolean(user)
+}
+
+export const authenticatedOrPublished: Access = ({ req: { user } }) => {
+  if (user) {
+    return true
+  }
+
+  return {
+    _status: {
+      equals: 'published',
+    },
+  }
 }
