@@ -16,7 +16,6 @@ import { Users } from './collections/Users'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -38,12 +37,14 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   sharp,
+
+  //TODO
+
   globals: [
     {
       slug: 'site-settings',
       access: {
-        // Only admin users can read global settings
-        read: isAdmin,
+        read: () => true,
         // Only admin users can update global settings
         update: isAdmin,
       },
